@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="entendendo-o-junit" />
         <module name="cadastro-evento-jdbc" />
+        <module name="lucasengcomp-ecommerce" />
       </profile>
     </annotationProcessing>
   </component>

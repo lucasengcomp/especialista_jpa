@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/Cap01.Aula09-entendendo-e-configurando-o-junit/pom.xml" />
         <option value="$PROJECT_DIR$/Cap01.Aula10-acessando-o-banco-de-dados-com-jdbc/pom.xml" />
+        <option value="$PROJECT_DIR$/Cap02.Aula02-mapeando-a-primeira-entidade-com-jpa/pom.xml" />
       </list>
     </option>
   </component>
