@@ -1,5 +1,6 @@
 package com.lucasengcomp.ecommerce.iniciandocomjpa;
 
+import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;

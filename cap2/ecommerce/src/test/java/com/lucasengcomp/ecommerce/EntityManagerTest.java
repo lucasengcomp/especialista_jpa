@@ -1,4 +1,4 @@
-package com.lucasengcomp.ecommerce.iniciandocomjpa;
+package com.lucasengcomp.ecommerce;
 
 import org.junit.After;
 import org.junit.AfterClass;
