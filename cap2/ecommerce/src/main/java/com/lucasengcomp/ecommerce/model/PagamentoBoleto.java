@@ -1,6 +1,6 @@
 package com.lucasengcomp.ecommerce.model;
 
-import com.lucasengcomp.ecommerce.model.enums.SexoCliente;
+import com.lucasengcomp.ecommerce.model.enums.StatusPagamento;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +13,12 @@ import javax.persistence.Id;
 @Setter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cliente {
+public class PagamentoBoleto {
 
     @Id
     @EqualsAndHashCode.Include
     private Integer id;
-    private String nome;
-    private SexoCliente sexoCliente;
+    private Integer pedidoId;
+    private StatusPagamento statusPagamento;
+    private String codigoBarras;
 }

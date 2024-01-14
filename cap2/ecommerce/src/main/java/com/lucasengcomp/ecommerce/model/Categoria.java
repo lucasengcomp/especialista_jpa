@@ -13,11 +13,11 @@ import javax.persistence.Id;
 @Setter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cliente {
+public class Categoria {
 
     @Id
     @EqualsAndHashCode.Include
     private Integer id;
     private String nome;
-    private SexoCliente sexoCliente;
+    private Integer catergoriaPaiId;
 }
