@@ -1,6 +1,5 @@
 package com.lucasengcomp.ecommerce.model;
 
-import com.lucasengcomp.ecommerce.model.enums.SexoCliente;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
