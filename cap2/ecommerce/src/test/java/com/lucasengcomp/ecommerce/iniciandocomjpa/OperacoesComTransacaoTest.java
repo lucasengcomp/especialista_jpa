@@ -10,6 +10,28 @@ import java.math.BigDecimal;
 public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
+    public void mostrarDiferencaPersistEMerge() {
+        Produto produtoPersist = new Produto();
+
+        produtoPersist.setId(2);
+        produtoPersist.setNome("Nokia tijolão");
+        produtoPersist.setDescricao("Um telefone raiz, indestrutível!");
+        produtoPersist.setPreco(new BigDecimal(200));
+
+        entityManager.getTransaction().begin();
+        produtoPersist = entityManager.merge(produtoPersist); // merge: gerencia o estado do objeto
+        produtoPersist.setNome("Nokia tijolão melhorado");
+        produtoPersist.setDescricao("Nikia Tijolão de luzinha");
+//        entityManager.persist(produtoPersist); persist: somente persistencia
+
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        Produto produtoVerificacao = entityManager.find(Produto.class, produtoPersist.getId());
+        Assert.assertNotNull(produtoVerificacao);
+    }
+
+    @Test
     public void inserirObjetoComMerge() {
         Produto produto = new Produto();
 
