@@ -1,4 +1,4 @@
-package com.lucasengcomp.ecommerce.model.util;
+package com.lucasengcomp.ecommerce.util;
 
 import com.lucasengcomp.ecommerce.model.Produto;
 
