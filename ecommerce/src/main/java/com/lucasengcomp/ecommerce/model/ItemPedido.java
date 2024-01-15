@@ -14,16 +14,19 @@ import java.math.BigDecimal;
 @Table(name = "item_pedido")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
-    @Id
+
     @EqualsAndHashCode.Include
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "pedido_id")
-    private Integer pedidoId;
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 
-    @Column(name = "produto_id")
-    private Integer produtoId;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 
     @Column(name = "preco_produto")
     private BigDecimal precoProduto;

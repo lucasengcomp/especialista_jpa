@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
+
 @Getter
 @Setter
 @Entity
@@ -37,12 +38,10 @@ public class Pedido {
     private Integer notaFiscalId;
     private BigDecimal total;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status_pedido")
     private StatusPedido statusPedido;
 
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;
-
-//    @Column(name = "item_pedido")
-//    private ItemPedido itemPedido;
 }
