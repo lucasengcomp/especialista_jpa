@@ -1,9 +1,11 @@
 package com.lucasengcomp.ecommerce.model;
 
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,15 +14,20 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Table(name = "produto")
+@Table(name = "item_pedido")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Produto {
-
+public class ItemPedido {
     @Id
     @EqualsAndHashCode.Include
     private Integer id;
-    private String nome;
-    private String descricao;
-    private BigDecimal preco;
 
+    @Column(name = "pedido_id")
+    private Integer pedidoId;
+
+    @Column(name = "produto_id")
+    private Integer produtoId;
+
+    @Column(name = "preco_produto")
+    private BigDecimal precoProduto;
+    private Integer quantidade;
 }
