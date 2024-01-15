@@ -1,14 +1,12 @@
 package com.lucasengcomp.ecommerce.model;
 
+import com.lucasengcomp.ecommerce.embeddables.EnderecoEntregaPedido;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -36,6 +34,9 @@ public class Pedido {
 
     @Column(name = "status_pedido")
     private StatusPedido statusPedido;
+
+    @Embedded
+    private EnderecoEntregaPedido enderecoEntrega;
 
 //    @Column(name = "item_pedido")
 //    private ItemPedido itemPedido;
