@@ -37,6 +37,6 @@ public class Pedido {
     @Column(name = "status_pedido")
     private StatusPedido statusPedido;
 
-    @Column(name = "item_pedido")
-    private ItemPedido itemPedido;
+//    @Column(name = "item_pedido")
+//    private ItemPedido itemPedido;
 }
