@@ -22,8 +22,8 @@ public class PagamentoBoleto {
     @Column(name = "pedido_id")
     private Integer pedidoId;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status_pagamento")
+    @Enumerated(EnumType.STRING)
     private StatusPagamento statusPagamento;
 
     @Column(name = "codigo_barras")
