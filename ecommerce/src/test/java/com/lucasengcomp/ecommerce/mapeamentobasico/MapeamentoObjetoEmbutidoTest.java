@@ -23,7 +23,6 @@ public class MapeamentoObjetoEmbutidoTest extends EntityManagerTest {
         enderecoEntregaPedido.setEstado("MG");
 
         Pedido pedido = new Pedido();
-        pedido.setId(1);
         pedido.setDataPedido(LocalDateTime.now());
         pedido.setStatusPedido(StatusPedido.AGUARDANDO);
         pedido.setTotal(new BigDecimal(1000));
@@ -38,6 +37,5 @@ public class MapeamentoObjetoEmbutidoTest extends EntityManagerTest {
         Assert.assertNotNull(pedidoVerificacao);
         Assert.assertNotNull(pedidoVerificacao.getEnderecoEntrega());
         Assert.assertEquals(StatusPedido.AGUARDANDO, pedidoVerificacao.getStatusPedido());
-
     }
 }

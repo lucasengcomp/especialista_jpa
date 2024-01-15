@@ -2,6 +2,7 @@ package com.lucasengcomp.ecommerce.exercicios;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.model.Cliente;
+import com.lucasengcomp.ecommerce.model.enums.SexoCliente;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,17 +13,18 @@ public class CRUDClienteTest extends EntityManagerTest {
     @Test
     public void inserirCliente() {
         Cliente cliente = new Cliente();
-        cliente.setId(3);
         cliente.setNome("Jack Sparrow");
+        cliente.setSexoCliente(SexoCliente.MASCULINO);
 
         iniciaTransacao();
         entityManager.persist(cliente);
         commitaTransacao();
 
-        Cliente clientePersistido = buscaClienteNoDB(3);
+        Cliente clientePersistido = buscaClienteNoDB(cliente.getId());
 
         assertNotNull(clientePersistido);
         assertEquals("Jack Sparrow", clientePersistido.getNome());
+        assertEquals(SexoCliente.MASCULINO, clientePersistido.getSexoCliente());
         fechaTransacao();
     }
 
