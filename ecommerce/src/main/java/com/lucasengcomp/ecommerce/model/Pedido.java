@@ -28,6 +28,9 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itemsPedido;
+
     @Column(name = "data_pedido")
     private LocalDateTime dataPedido;
 
@@ -36,6 +39,7 @@ public class Pedido {
 
     @Column(name = "nota_fiscal_id")
     private Integer notaFiscalId;
+
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
@@ -44,7 +48,4 @@ public class Pedido {
 
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;
-
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itemsPedidos;
 }
