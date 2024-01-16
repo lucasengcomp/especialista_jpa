@@ -27,5 +27,6 @@ public class PagamentoCartao {
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pagamento")
     private StatusPagamento statusPagamento;
+
     private String numero;
 }
