@@ -20,11 +20,13 @@ public class PagamentoCartao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "pedido_id")
-    private Integer pedidoId;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status_pagamento")
     private StatusPagamento statusPagamento;
+
     private String numero;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 }

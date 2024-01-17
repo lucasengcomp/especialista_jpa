@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -29,16 +30,25 @@ public class Pedido {
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
 
-    @Column(name = "nota_fiscal_id")
-    private Integer notaFiscalId;
     private BigDecimal total;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status_pedido")
     private StatusPedido statusPedido;
 
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;
 
-//    @Column(name = "item_pedido")
-//    private ItemPedido itemPedido;
+    @OneToOne(mappedBy = "pedido")
+    private PagamentoCartao pagamentoCartao;
+
+    @OneToOne(mappedBy = "pedido")
+    private NotaFiscal notaFiscal;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
+    private List<ItemPedido> itemsPedido;
 }
