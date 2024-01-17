@@ -1,6 +1,8 @@
 package com.lucasengcomp.ecommerce.model;
 
 import com.lucasengcomp.ecommerce.embeddables.EnderecoEntregaPedido;
+import com.lucasengcomp.ecommerce.listener.GenericoListener;
+import com.lucasengcomp.ecommerce.listener.GerarNotaFiscalListener;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "pedido")
+@EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pedido {
 
@@ -54,6 +57,10 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
     private List<ItemPedido> itemsPedido;
+
+    public boolean isPago() {
+        return StatusPedido.PAGO.equals(statusPedido);
+    }
 
     public void calcularTotal() {
         if (itemsPedido != null) {
