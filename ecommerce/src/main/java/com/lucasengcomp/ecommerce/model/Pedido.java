@@ -45,10 +45,10 @@ public class Pedido {
     @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
     private List<ItemPedido> itemsPedido;
 }
