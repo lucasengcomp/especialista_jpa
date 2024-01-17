@@ -1,6 +1,8 @@
 package com.lucasengcomp.ecommerce.model;
 
 import com.lucasengcomp.ecommerce.embeddables.EnderecoEntregaPedido;
+import com.lucasengcomp.ecommerce.listener.GenericoListener;
+import com.lucasengcomp.ecommerce.listener.GerarNotaFiscalListener;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "pedido")
+@EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pedido {
 
@@ -24,8 +27,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "data_pedido")
-    private LocalDateTime dataPedido;
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+
+    @Column(name = "data_atualizacao")
+    private LocalDateTime dataUltimaAtualizacao;
 
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
@@ -51,4 +57,31 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
     private List<ItemPedido> itemsPedido;
+
+    public boolean isPago() {
+        return StatusPedido.PAGO.equals(statusPedido);
+    }
+
+    public void calcularTotal() {
+        if (itemsPedido != null) {
+            total = itemsPedido.stream().map(ItemPedido::getPrecoProduto).reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+    }
+
+    @PrePersist
+    public void aoPersistirUmPedido() {
+        dataCriacao = LocalDateTime.now();
+        calcularTotal();
+    }
+
+    @PreUpdate
+    public void aoAtualizarUmPedido() {
+        dataUltimaAtualizacao = LocalDateTime.now();
+        calcularTotal();
+    }
+
+    @PostPersist
+    public void aoCriarUmPedido() {
+        System.out.println("Após perstir um pedido");
+    }
 }
