@@ -17,7 +17,7 @@ public class NotaFiscal {
 
     @Id
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pedido_id")
     private Integer id;
 
     private String xml;
@@ -25,6 +25,7 @@ public class NotaFiscal {
     @Column(name = "data_emissao")
     private Date dataEmissao;
 
+    @MapsId
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;

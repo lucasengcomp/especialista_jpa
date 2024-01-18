@@ -27,10 +27,10 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "data_criacao", insertable = false)
+    @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
 
-    @Column(name = "data_ultima_atualizacao", updatable = false)
+    @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
     @Column(name = "data_conclusao")
@@ -46,16 +46,16 @@ public class Pedido {
     private EnderecoEntregaPedido enderecoEntrega;
 
     @OneToOne(mappedBy = "pedido")
-    private PagamentoCartao pagamentoCartao;
-
-    @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "pedido")
+    private PagamentoCartao pagamentoCartao;
+
+    @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itemsPedido;
 
     public boolean isPago() {
