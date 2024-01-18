@@ -10,14 +10,12 @@ import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class ChaveCompostaTest extends EntityManagerTest {
 
     @Test
-    public void imperdirInsercaoDaColunaAtuaizacao() {
+    public void salvarItem() {
         entityManager.getTransaction().begin();
 
         Cliente cliente = entityManager.find(Cliente.class, 1);
@@ -33,8 +31,7 @@ public class ChaveCompostaTest extends EntityManagerTest {
         entityManager.flush();
 
         ItemPedido itemPedido = new ItemPedido();
-        itemPedido.setPedidoId(pedido.getId());
-        itemPedido.setProdutoId(produto.getId());
+        itemPedido.setId(new ItemPedidoId(pedido.getId(), produto.getId()));
         itemPedido.setPedido(pedido);
         itemPedido.setProduto(produto);
         itemPedido.setPrecoProduto(produto.getPreco());
@@ -42,9 +39,11 @@ public class ChaveCompostaTest extends EntityManagerTest {
 
         entityManager.persist(itemPedido);
         entityManager.getTransaction().commit();
+        entityManager.clear();
 
-        Pedido pedidoPersistido = entityManager.find(Pedido.class, pedido.getId());
-        Assert.assertNotNull(pedidoPersistido);
+        Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
+        Assert.assertNotNull(pedidoVerificacao);
+        Assert.assertFalse(pedidoVerificacao.getItemsPedido().isEmpty());
     }
 
     @Test

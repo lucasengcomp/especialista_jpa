@@ -13,19 +13,11 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "item_pedido")
-@IdClass(ItemPedidoId.class)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
 
-    @Id
-    @EqualsAndHashCode.Include
-    @Column(name = "pedido_id")
-    private Integer pedidoId;
-
-    @Id
-    @EqualsAndHashCode.Include
-    @Column(name = "produto_id")
-    private Integer produtoId;
+    @EmbeddedId
+    private ItemPedidoId id;
 
     @Column(name = "preco_produto")
     private BigDecimal precoProduto;
