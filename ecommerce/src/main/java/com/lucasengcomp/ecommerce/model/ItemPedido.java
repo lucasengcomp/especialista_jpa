@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.model;
 
 
+import com.lucasengcomp.ecommerce.chavecomposta.ItemPedidoId;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,23 +13,30 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "item_pedido")
+@IdClass(ItemPedidoId.class)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
 
-    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @EqualsAndHashCode.Include
+    @Column(name = "pedido_id")
+    private Integer pedidoId;
+
+    @Id
+    @EqualsAndHashCode.Include
+    @Column(name = "produto_id")
+    private Integer produtoId;
 
     @Column(name = "preco_produto")
     private BigDecimal precoProduto;
+
     private Integer quantidade;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "pedido_id", insertable = false, updatable = false)
     private Pedido pedido;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produto_id", insertable = false, updatable = false)
     private Produto produto;
 }
