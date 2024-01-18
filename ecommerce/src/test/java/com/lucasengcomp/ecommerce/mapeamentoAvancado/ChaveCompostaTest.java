@@ -27,18 +27,17 @@ public class ChaveCompostaTest extends EntityManagerTest {
         pedido.setStatusPedido(StatusPedido.AGUARDANDO);
         pedido.setTotal(produto.getPreco());
 
-        entityManager.persist(pedido);
-        entityManager.flush();
-
         ItemPedido itemPedido = new ItemPedido();
-        itemPedido.setId(new ItemPedidoId(pedido.getId(), produto.getId()));
+        itemPedido.setId(new ItemPedidoId());
         itemPedido.setPedido(pedido);
         itemPedido.setProduto(produto);
         itemPedido.setPrecoProduto(produto.getPreco());
         itemPedido.setQuantidade(1);
 
+        entityManager.persist(pedido);
         entityManager.persist(itemPedido);
         entityManager.getTransaction().commit();
+
         entityManager.clear();
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
@@ -48,7 +47,10 @@ public class ChaveCompostaTest extends EntityManagerTest {
 
     @Test
     public void buscarItem() {
-        ItemPedido itemPedido = entityManager.find(ItemPedido.class, new ItemPedidoId(1, 1));
+        Pedido pedido = entityManager.find(Pedido.class, 1);
+        Produto produto = entityManager.find(Produto.class, 1);
+
+        ItemPedido itemPedido = entityManager.find(ItemPedido.class, new ItemPedidoId(pedido.getId(), produto.getId()));
 
         Assert.assertNotNull(itemPedido);
     }
