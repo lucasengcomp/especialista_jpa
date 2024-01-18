@@ -50,4 +50,23 @@ public class DetalhesColumnTest extends EntityManagerTest {
         Assert.assertEquals(produto.getDataUltimaAtualizacao().truncatedTo(ChronoUnit.SECONDS),
                 produtoAtualizado.getDataUltimaAtualizacao().truncatedTo(ChronoUnit.SECONDS));
     }
+
+    @Test
+    public void impedirAtualizacaoDaColunaCriacao() {
+        entityManager.getTransaction().begin();
+
+        Produto produto = entityManager.find(Produto.class, 1);
+        produto.setPreco(BigDecimal.TEN);
+        produto.setDataCriacao(LocalDateTime.now());
+        produto.setDataUltimaAtualizacao(LocalDateTime.now());
+
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId());
+        Assert.assertNotEquals(produto.getDataCriacao().truncatedTo(ChronoUnit.SECONDS),
+                produtoPersistido.getDataCriacao().truncatedTo(ChronoUnit.SECONDS));
+        Assert.assertEquals(produto.getDataUltimaAtualizacao().truncatedTo(ChronoUnit.SECONDS),
+                produtoPersistido.getDataUltimaAtualizacao().truncatedTo(ChronoUnit.SECONDS));
+    }
 }
