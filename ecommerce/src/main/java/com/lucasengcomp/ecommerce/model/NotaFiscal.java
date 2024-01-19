@@ -20,7 +20,8 @@ public class NotaFiscal {
     @Column(name = "pedido_id")
     private Integer id;
 
-    private String xml;
+    @Lob
+    private byte[] xml;
 
     @Column(name = "data_emissao")
     private Date dataEmissao;
