@@ -1,5 +1,6 @@
 package com.lucasengcomp.ecommerce.model;
 
+import com.lucasengcomp.ecommerce.embeddables.Atributo;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -46,4 +47,9 @@ public class Produto {
             joinColumns = @JoinColumn(name = "produto_id"))
     @Column(name = "tag")
     private List<String> tags;
+
+    @ElementCollection
+    @CollectionTable(name = "produto_atributo",
+            joinColumns = @JoinColumn(name = "produto_id"))
+    private List<Atributo> atributos;
 }
