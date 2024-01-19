@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 
 @Getter
@@ -30,6 +31,13 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
+
+    @ElementCollection
+    @CollectionTable(name = "cliente_contato",
+            joinColumns = @JoinColumn(name = "cliente_id"))
+    @MapKeyColumn(name = "tipo")
+    @Column(name = "descricao")
+    private Map<String, String> contatos;
 
     @PostLoad
     public void configurarPrimeiroNome() {
