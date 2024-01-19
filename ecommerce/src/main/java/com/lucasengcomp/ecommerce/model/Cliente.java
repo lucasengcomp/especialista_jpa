@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 @Entity
 @Table(name = "cliente")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@SecondaryTable(name = "cliente_detalhe", pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"))
 public class Cliente {
 
     @Id
@@ -26,8 +28,12 @@ public class Cliente {
     @Transient
     private String primeiroNome;
 
+    @Column(table = "cliente_detalhe")
     @Enumerated(EnumType.STRING)
     private SexoCliente sexoCliente;
+
+    @Column(name = "data_nascimento", table = "cliente_detalhe")
+    private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
