@@ -4,6 +4,7 @@ import com.lucasengcomp.ecommerce.embeddables.EnderecoEntregaPedido;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
 import com.lucasengcomp.ecommerce.listener.GerarNotaFiscalListener;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,13 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "pedido")
 @EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Pedido {
-
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Pedido extends EntidadeBaseInteger {
 
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;

@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.model;
 
 
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,13 +13,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "nota_fiscal")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class NotaFiscal {
-
-    @Id
-    @EqualsAndHashCode.Include
-    @Column(name = "pedido_id")
-    private Integer id;
+public class NotaFiscal extends EntidadeBaseInteger {
 
     @Lob
     private byte[] xml;

@@ -2,6 +2,7 @@ package com.lucasengcomp.ecommerce.model;
 
 import com.lucasengcomp.ecommerce.embeddables.Atributo;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,14 +16,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "produto")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners({GenericoListener.class})
-public class Produto {
+public class Produto extends EntidadeBaseInteger {
 
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
     private String descricao;
     private BigDecimal preco;

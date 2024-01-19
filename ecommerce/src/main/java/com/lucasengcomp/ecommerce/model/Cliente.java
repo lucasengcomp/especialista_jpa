@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.model;
 
 import com.lucasengcomp.ecommerce.model.enums.SexoCliente;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,14 +16,9 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "cliente")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SecondaryTable(name = "cliente_detalhe", pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"))
-public class Cliente {
+public class Cliente extends EntidadeBaseInteger {
 
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
 
     @Transient

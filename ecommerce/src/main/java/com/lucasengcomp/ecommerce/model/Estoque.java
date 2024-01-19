@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.model;
 
 
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "estoque")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Estoque {
-
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Estoque extends EntidadeBaseInteger {
 
     private Integer quantidade;
 

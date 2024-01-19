@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.model;
 
 import com.lucasengcomp.ecommerce.model.enums.StatusPagamento;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,13 +13,8 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "pagamento_boleto")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class PagamentoBoleto {
+public class PagamentoBoleto extends EntidadeBaseInteger {
 
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Column(name = "pedido_id")
     private Integer pedidoId;
