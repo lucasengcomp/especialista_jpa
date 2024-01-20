@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-//@Table(name = "pagamento")
-//@DiscriminatorColumn(name = "tipo_pagamento", discriminatorType = DiscriminatorType.STRING)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "pagamento")
+@DiscriminatorColumn(name = "tipo_pagamento", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pagamento extends EntidadeBaseInteger {
 
     @Enumerated(EnumType.STRING)
