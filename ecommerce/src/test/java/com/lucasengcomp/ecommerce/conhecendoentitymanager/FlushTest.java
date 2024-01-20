@@ -2,9 +2,7 @@ package com.lucasengcomp.ecommerce.conhecendoentitymanager;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.model.Pedido;
-import com.lucasengcomp.ecommerce.model.Produto;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class FlushTest extends EntityManagerTest {
@@ -17,7 +15,7 @@ public class FlushTest extends EntityManagerTest {
             pedido.setStatusPedido(StatusPedido.PAGO);
 
 //            entityManager.flush();
-            if (pedido.getPagamentoCartao() == null) {
+            if (pedido.getPagamento() == null) {
                 throw new RuntimeException("Pedido ainda não foi pago");
             }
 

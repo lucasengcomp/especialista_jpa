@@ -3,9 +3,9 @@ package com.lucasengcomp.ecommerce.model;
 import com.lucasengcomp.ecommerce.embeddables.EnderecoEntregaPedido;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
 import com.lucasengcomp.ecommerce.listener.GerarNotaFiscalListener;
+import com.lucasengcomp.ecommerce.model.abstractclass.Pagamento;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,7 +48,7 @@ public class Pedido extends EntidadeBaseInteger {
     private Cliente cliente;
 
     @OneToOne(mappedBy = "pedido")
-    private PagamentoCartao pagamentoCartao;
+    private Pagamento pagamento;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itemsPedido;
