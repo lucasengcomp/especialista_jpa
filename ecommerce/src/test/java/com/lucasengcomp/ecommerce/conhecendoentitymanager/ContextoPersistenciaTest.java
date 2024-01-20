@@ -1,9 +1,7 @@
 package com.lucasengcomp.ecommerce.conhecendoentitymanager;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
-import com.lucasengcomp.ecommerce.model.Pedido;
 import com.lucasengcomp.ecommerce.model.Produto;
-import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import org.junit.Test;
 
 import java.math.BigDecimal;

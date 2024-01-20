@@ -4,14 +4,15 @@ import com.lucasengcomp.ecommerce.model.abstractclass.Pagamento;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 
 @Getter
 @Setter
-@Entity
-@Table(name = "pagamento_cartao")
 @DiscriminatorValue("cartao")
+@Entity
 public class PagamentoCartao extends Pagamento {
 
     @Column(name = "numero_cartao")

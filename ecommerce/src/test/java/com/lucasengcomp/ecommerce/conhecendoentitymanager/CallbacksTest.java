@@ -3,12 +3,9 @@ package com.lucasengcomp.ecommerce.conhecendoentitymanager;
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
-import com.lucasengcomp.ecommerce.model.Produto;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 public class CallbacksTest extends EntityManagerTest {
 
@@ -17,13 +14,13 @@ public class CallbacksTest extends EntityManagerTest {
         Cliente cliente = entityManager.find(Cliente.class, 1);
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
-        pedido.setStatusPedido(StatusPedido.AGUARDANDO);
+        pedido.setStatus(StatusPedido.AGUARDANDO);
 
         entityManager.getTransaction().begin();
         entityManager.persist(pedido);
         entityManager.flush();
 
-        pedido.setStatusPedido(StatusPedido.PAGO);
+        pedido.setStatus(StatusPedido.PAGO);
         entityManager.getTransaction().commit();
         entityManager.clear();
 

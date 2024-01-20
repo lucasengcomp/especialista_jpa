@@ -13,16 +13,16 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "pagamento")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_pagamento", discriminatorType = DiscriminatorType.STRING)
-@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pagamento extends EntidadeBaseInteger {
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_pagamento")
-    private StatusPagamento statusPagamento;
 
     @MapsId
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
+
+    @Enumerated(EnumType.STRING)
+    private StatusPagamento status;
 }
+

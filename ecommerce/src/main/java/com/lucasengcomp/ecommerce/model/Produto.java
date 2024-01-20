@@ -3,7 +3,6 @@ package com.lucasengcomp.ecommerce.model;
 import com.lucasengcomp.ecommerce.embeddables.Atributo;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
 import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

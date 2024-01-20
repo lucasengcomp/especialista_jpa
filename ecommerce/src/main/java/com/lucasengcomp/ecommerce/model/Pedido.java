@@ -15,12 +15,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+
 @Getter
 @Setter
+@EntityListeners({ GerarNotaFiscalListener.class, GenericoListener.class })
 @Entity
 @Table(name = "pedido")
-@EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 public class Pedido extends EntidadeBaseInteger {
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens;
 
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
@@ -31,52 +39,65 @@ public class Pedido extends EntidadeBaseInteger {
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
 
-    private BigDecimal total;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_pedido")
-    private StatusPedido statusPedido;
-
-    @Embedded
-    private EnderecoEntregaPedido enderecoEntrega;
-
     @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
 
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
 
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itemsPedido;
+    @Embedded
+    private EnderecoEntregaPedido enderecoEntrega;
 
     public boolean isPago() {
-        return StatusPedido.PAGO.equals(statusPedido);
+        return StatusPedido.PAGO.equals(status);
     }
 
     public void calcularTotal() {
-        if (itemsPedido != null) {
-            total = itemsPedido.stream().map(ItemPedido::getPrecoProduto).reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (itens != null) {
+            total = itens.stream().map(ItemPedido::getPrecoProduto)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
     }
 
     @PrePersist
-    public void aoPersistirUmPedido() {
+    public void aoPersistir() {
         dataCriacao = LocalDateTime.now();
         calcularTotal();
     }
 
     @PreUpdate
-    public void aoAtualizarUmPedido() {
+    public void aoAtualizar() {
         dataUltimaAtualizacao = LocalDateTime.now();
         calcularTotal();
     }
 
     @PostPersist
-    public void aoCriarUmPedido() {
-        System.out.println("Após perstir um pedido");
+    public void aposPersistir() {
+        System.out.println("Após persistir Pedido.");
+    }
+
+    @PostUpdate
+    public void aposAtualizar() {
+        System.out.println("Após atualizar Pedido.");
+    }
+
+    @PreRemove
+    public void aoRemover() {
+        System.out.println("Antes de remover Pedido.");
+    }
+
+    @PostRemove
+    public void aposRemover() {
+        System.out.println("Após remover Pedido.");
+    }
+
+    @PostLoad
+    public void aoCarregar() {
+        System.out.println("Após carregar o Pedido.");
     }
 }

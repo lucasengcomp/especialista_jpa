@@ -24,7 +24,7 @@ public class ChaveCompostaTest extends EntityManagerTest {
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
         pedido.setDataCriacao(LocalDateTime.now());
-        pedido.setStatusPedido(StatusPedido.AGUARDANDO);
+        pedido.setStatus(StatusPedido.AGUARDANDO);
         pedido.setTotal(produto.getPreco());
 
         ItemPedido itemPedido = new ItemPedido();
@@ -42,7 +42,7 @@ public class ChaveCompostaTest extends EntityManagerTest {
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
         Assert.assertNotNull(pedidoVerificacao);
-        Assert.assertFalse(pedidoVerificacao.getItemsPedido().isEmpty());
+        Assert.assertFalse(pedidoVerificacao.getItens().isEmpty());
     }
 
     @Test

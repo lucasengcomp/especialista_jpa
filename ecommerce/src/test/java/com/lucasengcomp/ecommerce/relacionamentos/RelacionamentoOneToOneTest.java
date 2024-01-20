@@ -18,7 +18,7 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
 
         PagamentoCartao pagamentoCartao = new PagamentoCartao();
         pagamentoCartao.setNumeroCartao("123.123.123");
-        pagamentoCartao.setStatusPagamento(StatusPagamento.PROCESSANDO);
+        pagamentoCartao.setStatus(StatusPagamento.PROCESSANDO);
         pagamentoCartao.setPedido(pedido);
 
         entityManager.getTransaction().begin();
