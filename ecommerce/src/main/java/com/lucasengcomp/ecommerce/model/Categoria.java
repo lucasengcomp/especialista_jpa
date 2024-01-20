@@ -11,7 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "categoria")
+@Table(name = "categoria",
+        uniqueConstraints = {@UniqueConstraint(name = "uni_nome", columnNames = "nome")},
+        indexes = @Index(name = "idx_nome", columnList = "nome"))
 public class Categoria extends EntidadeBaseInteger {
 
     private String nome;
