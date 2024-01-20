@@ -21,13 +21,13 @@ public class ListenersTest extends EntityManagerTest {
         Cliente cliente = entityManager.find(Cliente.class, 1);
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
-        pedido.setStatusPedido(StatusPedido.AGUARDANDO);
+        pedido.setStatus(StatusPedido.AGUARDANDO);
 
         entityManager.getTransaction().begin();
         entityManager.persist(pedido);
         entityManager.flush();
 
-        pedido.setStatusPedido(StatusPedido.PAGO);
+        pedido.setStatus(StatusPedido.PAGO);
         entityManager.getTransaction().commit();
         entityManager.clear();
 

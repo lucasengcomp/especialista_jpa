@@ -1,7 +1,6 @@
 package com.lucasengcomp.ecommerce.listener;
 
 import com.lucasengcomp.ecommerce.model.Pedido;
-import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import com.lucasengcomp.ecommerce.service.NotaFiscalService;
 
 import javax.persistence.PrePersist;

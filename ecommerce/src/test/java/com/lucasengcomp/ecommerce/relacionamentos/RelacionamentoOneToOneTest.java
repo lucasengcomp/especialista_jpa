@@ -17,8 +17,8 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
         Pedido pedido = entityManager.find(Pedido.class, 1);
 
         PagamentoCartao pagamentoCartao = new PagamentoCartao();
-        pagamentoCartao.setNumero("123.123.123");
-        pagamentoCartao.setStatusPagamento(StatusPagamento.PROCESSANDO);
+        pagamentoCartao.setNumeroCartao("123.123.123");
+        pagamentoCartao.setStatus(StatusPagamento.PROCESSANDO);
         pagamentoCartao.setPedido(pedido);
 
         entityManager.getTransaction().begin();
@@ -27,7 +27,7 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
         entityManager.clear();
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
-        Assert.assertNotNull(pedidoVerificacao.getPagamentoCartao());
+        Assert.assertNotNull(pedidoVerificacao.getPagamento());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
 
         NotaFiscal notaFiscal = new NotaFiscal();
         notaFiscal.setPedido(pedido);
-        notaFiscal.setXml("arquivoxml.xml");
+        notaFiscal.setXml(null);
         notaFiscal.setDataEmissao(new Date(2024,1,1));
 
         entityManager.getTransaction().begin();

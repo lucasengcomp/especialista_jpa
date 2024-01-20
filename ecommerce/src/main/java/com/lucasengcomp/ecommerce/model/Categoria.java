@@ -1,6 +1,6 @@
 package com.lucasengcomp.ecommerce.model;
 
-import lombok.EqualsAndHashCode;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,13 +12,8 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "categoria")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Categoria {
+public class Categoria extends EntidadeBaseInteger {
 
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String nome;
 
     @ManyToOne

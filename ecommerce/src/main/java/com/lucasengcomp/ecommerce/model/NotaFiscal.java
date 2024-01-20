@@ -1,7 +1,7 @@
 package com.lucasengcomp.ecommerce.model;
 
 
-import lombok.EqualsAndHashCode;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,19 +12,15 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "nota_fiscal")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class NotaFiscal {
+public class NotaFiscal extends EntidadeBaseInteger {
 
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String xml;
+    @Lob
+    private byte[] xml;
 
     @Column(name = "data_emissao")
     private Date dataEmissao;
 
+    @MapsId
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;

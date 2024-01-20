@@ -1,23 +1,20 @@
 package com.lucasengcomp.ecommerce.model;
 
 
-import lombok.EqualsAndHashCode;
+import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "estoque")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Estoque {
-
-    @Id
-    @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Estoque extends EntidadeBaseInteger {
 
     private Integer quantidade;
 
