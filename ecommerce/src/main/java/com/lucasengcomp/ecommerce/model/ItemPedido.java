@@ -19,9 +19,10 @@ public class ItemPedido {
     @EmbeddedId
     private ItemPedidoId id;
 
-    @Column(name = "preco_produto")
+    @Column(name = "preco_produto", nullable = false)
     private BigDecimal precoProduto;
 
+    @Column(nullable = false)
     private Integer quantidade;
 
     @MapsId("pedidoId")

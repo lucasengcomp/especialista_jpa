@@ -8,6 +8,9 @@ import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 public class ListenersTest extends EntityManagerTest {
 
     @Test
@@ -20,7 +23,9 @@ public class ListenersTest extends EntityManagerTest {
     public void acionarCallback() {
         Cliente cliente = entityManager.find(Cliente.class, 1);
         Pedido pedido = new Pedido();
+        pedido.setDataCriacao(LocalDateTime.now());
         pedido.setCliente(cliente);
+        pedido.setTotal(BigDecimal.TEN);
         pedido.setStatus(StatusPedido.AGUARDANDO);
 
         entityManager.getTransaction().begin();

@@ -14,20 +14,21 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
-@Table(name = "cliente", uniqueConstraints = {
-        @UniqueConstraint(name = "uni_cpf", columnNames = { "cpf" } )},
+@Table(name = "cliente", uniqueConstraints = {@UniqueConstraint(name = "unq_cpf", columnNames = {"cpf"})},
         indexes = {@Index(name = "idx_nome", columnList = "nome")})
 @SecondaryTable(name = "cliente_detalhe", pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"))
 public class Cliente extends EntidadeBaseInteger {
 
+    @Column(length = 100, nullable = false)
     private String nome;
 
+    @Column(length = 14, nullable = false)
     private String cpf;
 
     @Transient
     private String primeiroNome;
 
-    @Column(table = "cliente_detalhe")
+    @Column(table = "cliente_detalhe", name = "sexo", length = 100)
     @Enumerated(EnumType.STRING)
     private SexoCliente sexoCliente;
 

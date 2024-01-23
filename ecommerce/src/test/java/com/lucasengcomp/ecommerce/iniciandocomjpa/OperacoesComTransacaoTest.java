@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class OperacoesComTransacaoTest extends EntityManagerTest {
 
@@ -18,31 +19,33 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Kindle Paperwhite 2º geração");
         produto.setDescricao("Conheça o mais novo kindle");
         produto.setPreco(new BigDecimal(799));
+        produto.setDataCriacao(LocalDateTime.now());
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        Produto produtoVerificado = entityManager.find(Produto.class, produto.getId());
-        Assert.assertEquals("Kindle", produtoVerificado.getNome());
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId());
+        Assert.assertEquals("Kindle", produtoPersistido.getNome());
     }
 
     @Test
     public void mostrarDiferencaPersistEMerge() {
-        Produto produtoPersist = new Produto();
+        Produto produto = new Produto();
 
-        produtoPersist.setNome("Nokia tijolão");
-        produtoPersist.setDescricao("Um telefone raiz, indestrutível!");
-        produtoPersist.setPreco(new BigDecimal(200));
+        produto.setNome("Nokia tijolão");
+        produto.setDescricao("Um telefone raiz, indestrutível!");
+        produto.setPreco(new BigDecimal(200));
+        produto.setDataCriacao(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
-        produtoPersist = entityManager.merge(produtoPersist);
-        produtoPersist.setNome("Nokia tijolão melhorado");
-        produtoPersist.setDescricao("Nikia Tijolão de luzinha");
+        produto = entityManager.merge(produto);
+        produto.setNome("Nokia tijolão melhorado");
+        produto.setDescricao("Nikia Tijolão de luzinha");
 
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        Produto produtoVerificacao = entityManager.find(Produto.class, produtoPersist.getId());
-        Assert.assertNotNull(produtoVerificacao);
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId());
+        Assert.assertNotNull(produtoPersistido);
     }
 
     @Test
@@ -52,6 +55,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Microfone Rode Videmic");
         produto.setDescricao("A melhor qualidade de som.");
         produto.setPreco(new BigDecimal(2000));
+        produto.setDataCriacao(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
         entityManager.merge(produto);
@@ -59,8 +63,8 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
         entityManager.clear();
 
-        Produto produtoVerificacao = entityManager.find(Produto.class, 3);
-        Assert.assertNotNull(produtoVerificacao);
+        Produto produtoPersistido = entityManager.find(Produto.class, 3);
+        Assert.assertNotNull(produtoPersistido);
     }
 
     @Test
@@ -71,10 +75,12 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Kindle Paperwhite 2º geração");
         produto.setDescricao("Conheça o mais novo kindle");
         produto.setPreco(new BigDecimal(799));
+        produto.setDataCriacao(LocalDateTime.now());
+
         entityManager.getTransaction().commit();
 
-        Produto produtoVerificado = entityManager.find(Produto.class, produto.getId());
-        Assert.assertEquals("Kindle Paperwhite 2º geração", produtoVerificado.getNome());
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId());
+        Assert.assertEquals("Kindle Paperwhite 2º geração", produtoPersistido.getNome());
     }
 
     @Test
@@ -84,14 +90,15 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Kindle Paperwhite");
         produto.setDescricao("Conheça o novo kindle");
         produto.setPreco(new BigDecimal(599));
+        produto.setDataCriacao(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
         entityManager.merge(produto);
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        Produto produtoVerificado = entityManager.find(Produto.class, 3);
-        Assert.assertNotNull(produtoVerificado);
+        Produto produtoPersistido = entityManager.find(Produto.class, 3);
+        Assert.assertNotNull(produtoPersistido);
         Assert.assertEquals("Kindle Paperwhite", produto.getNome());
         entityManager.close();
     }
@@ -104,8 +111,8 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         entityManager.remove(produto);
         entityManager.getTransaction().commit();
 
-        Produto produtoVerificacao = entityManager.find(Produto.class, produto.getId());
-        Assert.assertNull(produtoVerificacao);
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId());
+        Assert.assertNull(produtoPersistido);
     }
 
     @Test
@@ -115,6 +122,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Câmera Canon");
         produto.setDescricao("A melhor definição para suas fotos.");
         produto.setPreco(new BigDecimal(5000));
+        produto.setDataCriacao(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
         entityManager.persist(produto);
@@ -122,8 +130,8 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
         entityManager.clear();
 
-        Produto produtoVerificacao = entityManager.find(Produto.class, produto.getId());
-        Assert.assertNotNull(produtoVerificacao);
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId());
+        Assert.assertNotNull(produtoPersistido);
     }
 
     @Test

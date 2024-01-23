@@ -16,6 +16,7 @@ import java.util.List;
         indexes = @Index(name = "idx_nome", columnList = "nome"))
 public class Categoria extends EntidadeBaseInteger {
 
+    @Column(length = 100, nullable = false)
     private String nome;
 
     @ManyToOne
