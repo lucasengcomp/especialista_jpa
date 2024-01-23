@@ -23,13 +23,6 @@ import java.util.List;
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger {
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
-
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itens;
-
     @Column(name = "data_criacao", updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
@@ -39,9 +32,6 @@ public class Pedido extends EntidadeBaseInteger {
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
 
-    @OneToOne(mappedBy = "pedido")
-    private NotaFiscal notaFiscal;
-
     @Column(nullable = false)
     private BigDecimal total;
 
@@ -50,7 +40,17 @@ public class Pedido extends EntidadeBaseInteger {
     private StatusPedido status;
 
     @OneToOne(mappedBy = "pedido")
+    private NotaFiscal notaFiscal;
+
+    @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itens;
 
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;

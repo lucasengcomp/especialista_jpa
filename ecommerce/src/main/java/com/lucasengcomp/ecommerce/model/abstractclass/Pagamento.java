@@ -17,13 +17,13 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "tipo_pagamento", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pagamento extends EntidadeBaseInteger {
 
-    @MapsId
-    @OneToOne(optional = false)
-    @JoinColumn(name = "pedido_id")
-    private Pedido pedido;
-
     @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPagamento status;
+
+    @MapsId
+    @OneToOne(optional = false)
+    @JoinColumn(name = "pedido_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pagamento_pedido"))
+    private Pedido pedido;
 }
 
