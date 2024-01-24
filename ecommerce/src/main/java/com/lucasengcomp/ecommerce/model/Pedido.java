@@ -45,11 +45,11 @@ public class Pedido extends EntidadeBaseInteger {
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
 
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
 
     @Embedded
