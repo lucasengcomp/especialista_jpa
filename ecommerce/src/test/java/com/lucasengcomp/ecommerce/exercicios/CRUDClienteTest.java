@@ -14,6 +14,7 @@ public class CRUDClienteTest extends EntityManagerTest {
     public void inserirCliente() {
         Cliente cliente = new Cliente();
         cliente.setNome("Jack Sparrow");
+        cliente.setCpf("12312312311");
         cliente.setSexoCliente(SexoCliente.MASCULINO);
 
         iniciaTransacao();
@@ -41,7 +42,9 @@ public class CRUDClienteTest extends EntityManagerTest {
     public void atualizarCliente() {
         Cliente cliente = new Cliente();
         cliente.setId(2);
+        cliente.setCpf("12312312399");
         cliente.setNome("Capitão Jack Sparrow");
+        cliente.setSexoCliente(SexoCliente.MASCULINO);
 
         iniciaTransacao();
         entityManager.merge(cliente);

@@ -12,8 +12,8 @@ public class CachePrimeiroNivelTest extends EntityManagerTest {
         System.out.println(produto.getNome());
         System.out.println("================================");
 
-        Produto produtoResgatado = entityManager.find(Produto.class, produto.getId());
-        System.out.println(produtoResgatado.getNome());
+        Produto produtoEncontrado = entityManager.find(Produto.class, produto.getId());
+        System.out.println(produtoEncontrado.getNome());
         System.out.println("================================");
     }
 }

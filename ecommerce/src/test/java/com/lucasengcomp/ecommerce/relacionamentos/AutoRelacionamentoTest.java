@@ -9,9 +9,8 @@ public class AutoRelacionamentoTest extends EntityManagerTest {
 
     @Test
     public void verificarAutoRelacionamentoCategoria() {
-
         Categoria categoriaPai = new Categoria();
-        categoriaPai.setNome("Eletronicos");
+        categoriaPai.setNome("Eletronico");
 
         Categoria categoria = new Categoria();
         categoria.setNome("Celulares");
@@ -25,5 +24,8 @@ public class AutoRelacionamentoTest extends EntityManagerTest {
 
         Categoria categoriaVerificacao = entityManager.find(Categoria.class, categoria.getId());
         Assert.assertNotNull(categoriaVerificacao.getCategoriaPai());
+
+        Categoria categoriaPaiVerificacao = entityManager.find(Categoria.class, categoriaPai.getId());
+        Assert.assertFalse(categoriaPaiVerificacao.getCategorias().isEmpty());
     }
 }
