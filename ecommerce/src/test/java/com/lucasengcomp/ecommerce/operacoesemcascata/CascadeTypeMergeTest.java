@@ -3,16 +3,65 @@ package com.lucasengcomp.ecommerce.operacoesemcascata;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.chavecomposta.ItemPedidoId;
-import com.lucasengcomp.ecommerce.model.Cliente;
-import com.lucasengcomp.ecommerce.model.ItemPedido;
-import com.lucasengcomp.ecommerce.model.Pedido;
-import com.lucasengcomp.ecommerce.model.Produto;
+import com.lucasengcomp.ecommerce.model.*;
 import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import org.junit.Assert;
+import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public class CascadeTypeMergeTest extends EntityManagerTest {
+
+    @Test
+    public void atualizarProdutoComCategoria() {
+        Produto produto = new Produto();
+        produto.setId(1);
+        produto.setDataUltimaAtualizacao(LocalDateTime.now());
+        produto.setPreco(new BigDecimal(500));
+        produto.setNome("Monitor X");
+        produto.setDescricao("Um excelente monitor de 34 polegadas 4K.");
+
+        Categoria categoria = new Categoria();
+        categoria.setId(2);
+        categoria.setNome("Escritório");
+
+        produto.setCategorias(Arrays.asList(categoria)); // CascadeType.MERGE na anotação de Categoria na classe Produto
+
+        entityManager.getTransaction().begin();
+        entityManager.merge(produto);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Categoria categoriaPersistida = entityManager.find(Categoria.class, categoria.getId());
+        Assert.assertEquals("Escritório", categoriaPersistida.getNome());
+    }
+
+    //@Test
+    public void salvarProdutoComCategoria() {
+        Produto produto = new Produto();
+        produto.setDataCriacao(LocalDateTime.now());
+        produto.setDataUltimaAtualizacao(LocalDateTime.now());
+        produto.setPreco(new BigDecimal(1000));
+        produto.setNome("Condesador de audio");
+        produto.setDescricao("Um ótimo condensador de áudio para conversação");
+
+        Categoria categoria = new Categoria();
+        categoria.setNome("Eletronico");
+
+        produto.setCategorias(Arrays.asList(categoria));
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(produto); // Adicionar (cascade = CascadeType.PERSIST) na anotação de relacionamento
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        Produto produtoPersistido = entityManager.find(Produto.class, produto.getId()) ;
+
+        Assert.assertNotNull(produtoPersistido);
+    }
 
     // @Test
     public void atualizarPedidoComItens() {
