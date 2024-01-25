@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.jpql;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
 import com.lucasengcomp.ecommerce.model.Produto;
@@ -12,6 +13,17 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class BasicoJPQLTest extends EntityManagerTest {
+
+    @Test
+    public void projetarNoDTO() {
+        String jpql = "SELECT new com.lucasengcomp.ecommerce.dto.ProdutoDTO(id, nome) FROM Produto";
+
+        TypedQuery<ProdutoDTO> typedQuery = entityManager.createQuery(jpql, ProdutoDTO.class);
+        List<ProdutoDTO> list = typedQuery.getResultList();
+
+        Assert.assertFalse(list.isEmpty());
+        list.forEach(produtoDTO -> System.out.println(produtoDTO.getId() + ", " + produtoDTO.getNome()));
+    }
 
     @Test
     public void projetarResultado() {
