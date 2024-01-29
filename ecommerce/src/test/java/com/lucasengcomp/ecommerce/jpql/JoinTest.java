@@ -10,6 +10,40 @@ import java.util.List;
 public class JoinTest extends EntityManagerTest {
 
     @Test
+    public void usarJoinFetchParaPagamento() {
+        String jpql = "select p from Pedido p join fetch p.pagamento where p.id = 1";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assert.assertTrue(lista.isEmpty());
+    }
+
+    @Test
+    public void usarJoinFetchParaItens() {
+        String jpql = "select p from Pedido p join fetch p.itens where p.id = 1";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarJoinFetch() {
+        String jpql = "select p from Pedido p " +
+                "left join fetch p.pagamento " +
+                "join fetch p.cliente " +
+                "left join fetch p.notaFiscal " +
+                " where p.id = 1";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void fazerLeftJoin() {
         String jpql = "select p from Pedido p left join p.pagamento pag on pag.status = 'PROCESSANDO'";
 
