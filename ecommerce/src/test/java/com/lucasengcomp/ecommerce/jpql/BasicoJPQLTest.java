@@ -15,6 +15,28 @@ import java.util.List;
 public class BasicoJPQLTest extends EntityManagerTest {
 
     @Test
+    public void ordenarResultadosCrescente() {
+
+        String jpql = "SELECT c FROM Cliente c ORDER BY c.nome ASC";
+
+        TypedQuery<Cliente> query = entityManager.createQuery(jpql, Cliente.class);
+
+        List<Cliente> lista = query.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void ordenarResultadosDecrescente() {
+
+        String jpql = "SELECT c FROM Cliente c ORDER BY c.nome DESC";
+
+        TypedQuery<Cliente> query = entityManager.createQuery(jpql, Cliente.class);
+
+        List<Cliente> lista = query.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void projetarNoDTO() {
         String jpql = "SELECT new com.lucasengcomp.ecommerce.dto.ProdutoDTO(id, nome) FROM Produto";
 
