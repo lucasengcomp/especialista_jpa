@@ -1,15 +1,30 @@
 package com.lucasengcomp.ecommerce.jpql;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.model.Pedido;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarExpressaoCondicionalMaiorParaDatas() {
+        String jpql = "select p from Pedido p where p.dataCriacao > :dataPedido ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+
+        typedQuery.setParameter("dataPedido", LocalDateTime.now().minusDays(2));
+
+        List<Pedido> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
 
     @Test
     public void usarExpressaoCondicionalMaiorIgualMenorIgual() {
