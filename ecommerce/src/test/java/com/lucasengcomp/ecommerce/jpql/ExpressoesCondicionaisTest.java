@@ -14,6 +14,17 @@ import java.util.List;
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
+    public void usarExpressaoCondicionalDiferente() {
+        String jpql = "select p from Produto p WHERE p.preco <> 100 ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void usarExpressaoCondicionalBetweenComData() {
         String jpql = "select p from Pedido p where p.dataCriacao BETWEEN :dataInicial AND :dataFinal ";
 
