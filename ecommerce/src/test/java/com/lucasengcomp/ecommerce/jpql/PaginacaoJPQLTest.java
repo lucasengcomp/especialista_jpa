@@ -11,6 +11,18 @@ import java.util.List;
 public class PaginacaoJPQLTest extends EntityManagerTest {
 
     @Test
+    public void limitandoPaginacao() {
+        String jpql = "select c from Categoria c ORDER BY c.nome ";
+
+        TypedQuery<Categoria> typedQuery = entityManager.createQuery(jpql, Categoria.class);
+        typedQuery.setMaxResults(5);
+
+        List<Categoria> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void paginacaoResultado() {
         String jpql = "select c from Categoria c ORDER BY c.nome ";
 
