@@ -14,6 +14,34 @@ import java.util.List;
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
+    public void usarExpressaoCondicionalBetweenComData() {
+        String jpql = "select p from Pedido p where p.dataCriacao BETWEEN :dataInicial AND :dataFinal ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+
+        typedQuery.setParameter("dataInicial", LocalDateTime.now().minusDays(2));
+        typedQuery.setParameter("dataFinal", LocalDateTime.now());
+
+        List<Pedido> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoCondicionalBetween() {
+        String jpql = "select p from Produto p where p.preco BETWEEN :precoInicial AND :precoFinal ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        typedQuery.setParameter("precoInicial", new BigDecimal(499));
+        typedQuery.setParameter("precoFinal", new BigDecimal(1400));
+
+        List<Produto> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void usarExpressaoCondicionalMaiorParaDatas() {
         String jpql = "select p from Pedido p where p.dataCriacao > :dataPedido ";
 
