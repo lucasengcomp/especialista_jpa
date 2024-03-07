@@ -15,7 +15,7 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
     public void usarExpressaoCondicionalDiferente() {
-        String jpql = "select p from Produto p WHERE p.preco <> 100 ";
+        String jpql = "select p from Pedido p WHERE p.total > 100 AND p.status ";
 
         TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
 
