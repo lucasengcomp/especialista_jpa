@@ -10,6 +10,41 @@ import java.util.List;
 public class GroupByTest extends EntityManagerTest {
 
     @Test
+    public void agruparEFiltrarTotalVendas() {
+        String jpql = "SELECT c.nome, SUM(ip.precoProduto) FROM ItemPedido ip " +
+                " JOIN ip.produto pro " +
+                " JOIN pro.categorias c " +
+                " JOIN ip.pedido p " +
+                " WHERE YEAR(p.dataCriacao) = YEAR(CURRENT_DATE) " +
+                " AND MONTH(p.dataCriacao) = MONTH(CURRENT_DATE) " +
+                " GROUP BY c.id";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assert.assertFalse("A lista de resultados não deve estar vazia", lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println(obj[0] + " - " + obj[1]));
+    }
+
+    @Test
+    public void agruparEFiltrarTotalVendasUltimos3Meses() {
+        String jpql = "SELECT c.nome, SUM(ip.precoProduto) FROM ItemPedido ip " +
+                " JOIN ip.pedido p " +
+                " JOIN p.cliente c " +
+                " WHERE YEAR(p.dataCriacao) = YEAR(CURRENT_DATE) " +
+                " AND MONTH(p.dataCriacao) >= (MONTH(CURRENT_DATE) - 3) " +
+                " GROUP BY c.id";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assert.assertFalse("A lista de resultados não deve estar vazia", lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println(obj[0] + " - " + obj[1]));
+    }
+
+    @Test
     public void agruparResultadoPorDiaECategoria() {
         String jpql = "SELECT " +
                 " CONCAT(YEAR(p.dataCriacao), '/', MONTH(p.dataCriacao), '/', DAY(p.dataCriacao)), " +
