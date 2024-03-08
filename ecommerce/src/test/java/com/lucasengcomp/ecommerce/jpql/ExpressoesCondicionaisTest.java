@@ -14,6 +14,23 @@ import java.util.List;
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
+    public void usarExpressaoCase() {
+        String jpql = "SELECT p.id, " +
+                " CASE TYPE(p.pagamento) " +
+                "       WHEN PagamentoBoleto THEN 'Pago com boleto' " +
+                "       WHEN PagamentoCartao THEN 'Pago com cartão' " +
+                "       ELSE 'Não pago ainda.' " +
+                " END " +
+                " FROM Pedido p";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void usarExpressaoCondicionalDiferente() {
         String jpql = "select p from Pedido p WHERE p.total > 100 AND p.status ";
 
