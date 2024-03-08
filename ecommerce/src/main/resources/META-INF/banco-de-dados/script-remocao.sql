@@ -26,3 +26,5 @@ drop table if exists produto;
 drop table if exists produto_atributo;
 drop table if exists produto_categoria;
 drop table if exists produto_tag;
+
+DROP FUNCTION IF EXISTS acima_media_faturamento;
