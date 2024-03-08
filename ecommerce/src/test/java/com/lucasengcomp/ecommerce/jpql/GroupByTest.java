@@ -10,6 +10,22 @@ import java.util.List;
 public class GroupByTest extends EntityManagerTest {
 
     @Test
+    public void condicionarAgrupamentoComHaving() {
+        String jpql = "SELECT c.nome, SUM(ip.precoProduto) FROM ItemPedido ip " +
+                " JOIN ip.produto pro " +
+                " JOIN pro.categorias c " +
+                " GROUP BY c.id " +
+                " HAVING SUM(ip.precoProduto) > 100 ";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assert.assertFalse("A lista de resultados não deve estar vazia", lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println(obj[0] + " - " + obj[1]));
+    }
+
+    @Test
     public void agruparEFiltrarTotalVendas() {
         String jpql = "SELECT c.nome, SUM(ip.precoProduto) FROM ItemPedido ip " +
                 " JOIN ip.produto pro " +
