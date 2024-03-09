@@ -13,6 +13,36 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void pesquisarComNotExists() {
+
+        String jpql = "SELECT p FROM Produto p WHERE NOT EXISTS ( " +
+                " SELECT 1 FROM ItemPedido ip2 " +
+                " JOIN ip2.produto p2 WHERE p2 = p ) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        System.out.println(lista.size());
+    }
+
+    @Test
+    public void pesquisarComExists() {
+
+        String jpql = "SELECT p FROM Produto p WHERE EXISTS ( " +
+                " SELECT 1 FROM ItemPedido ip2 " +
+                " JOIN ip2.produto p2 WHERE p2 = p ) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        System.out.println(lista.size());
+    }
+
+    @Test
     public void pesquisarComIN() {
 
         String jpql = "SELECT p FROM Pedido p WHERE p.id IN (" +
