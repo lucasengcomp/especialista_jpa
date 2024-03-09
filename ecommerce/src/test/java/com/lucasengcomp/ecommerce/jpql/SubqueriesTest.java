@@ -13,6 +13,59 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void perquisarComAllProdutosQueNaoForamVendidosDepoisQueEncareceram() {
+        String jpql = "SELECT p from Produto p " +
+                " WHERE p.preco > ALL (SELECT precoProduto FROM ItemPedido WHERE produto = p) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void perquisarComAllPrecoAtualProdutos() {
+        String jpql = "SELECT p from Produto p " +
+                " WHERE p.preco = ALL (SELECT precoProduto FROM ItemPedido WHERE produto = p) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void perquisarComExistsExercicio() {
+        String jpql = "SELECT p from Produto p " +
+                " WHERE EXISTS " +
+                " (SELECT 1 FROM ItemPedido WHERE produto = p AND precoProduto <> p.preco)";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void perquisarComSubqueryExercicio() {
+        String jpql = "SELECT c FROM Cliente c WHERE " +
+                " (SELECT COUNT(cliente) FROM Pedido WHERE cliente = c) >= 2";
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(jpql, Cliente.class);
+
+        List<Cliente> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void pesquisarComNotExists() {
 
         String jpql = "SELECT p FROM Produto p WHERE NOT EXISTS ( " +
