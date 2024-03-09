@@ -264,3 +264,5 @@ ALTER TABLE
     produto_tag
 ADD
     CONSTRAINT fk_produto_tag_produto FOREIGN KEY (produto_id) REFERENCES produto (id);
+
+CREATE function acima_media_faturamento(valor DOUBLE) returns boolean reads SQL data return valor > (SELECT AVG(total) FROM pedido);
