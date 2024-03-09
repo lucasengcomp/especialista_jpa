@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.jpql;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Assert;
@@ -9,9 +10,42 @@ import org.junit.Test;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarExpressaoINIClientes() {
+
+        Cliente cliente1 = entityManager.find(Cliente.class, 1);
+        Cliente cliente2 = entityManager.find(Cliente.class, 2);
+
+        List<Cliente> clientes = Arrays.asList(cliente1, cliente2);
+
+        String jpql = " SELECT p FROM Pedido p WHERE p.cliente IN (:clientes)";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+        typedQuery.setParameter("clientes", clientes);
+
+        List<Pedido> result = typedQuery.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoINIdPedido() {
+        List<Integer> parametros = Arrays.asList(1,3,4);
+
+        String jpql = " SELECT p FROM Pedido p WHERE p.id IN (:lista)";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+        typedQuery.setParameter("lista", parametros);
+
+        List<Pedido> result = typedQuery.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
 
     @Test
     public void usarExpressaoCase() {
@@ -32,11 +66,11 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
     public void usarExpressaoCondicionalDiferente() {
-        String jpql = "select p from Pedido p WHERE p.total > 100 AND p.status ";
+        String jpql = "select p from Pedido p WHERE p.total <> 100";
 
-        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
 
-        List<Produto> lista = typedQuery.getResultList();
+        List<Pedido> lista = typedQuery.getResultList();
 
         Assert.assertFalse(lista.isEmpty());
     }
