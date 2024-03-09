@@ -1,18 +1,31 @@
 package com.lucasengcomp.ecommerce.jpql;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
-import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class SubqueriesTest extends EntityManagerTest {
+
+    @Test
+    public void pesquisarComIN() {
+
+        String jpql = "SELECT p FROM Pedido p WHERE p.id IN (" +
+                " SELECT p2.id FROM ItemPedido i2 " +
+                " JOIN i2.pedido p2 JOIN i2.produto pro2 WHERE pro2.preco > 100 ) ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+
+        List<Pedido> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        System.out.println(lista.size());
+    }
 
     @Test
     public void pesquisarProdutosMaisCaros() {
