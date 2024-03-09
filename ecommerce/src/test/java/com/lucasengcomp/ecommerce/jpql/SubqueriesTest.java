@@ -13,6 +13,45 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void perquisarComSOMEProdutosQueJaForamVendidosPeloPrecoDiferenteDoAtual() {
+        String jpql = "SELECT p from Produto p " +
+                " WHERE p.preco <> SOME (SELECT precoProduto FROM ItemPedido WHERE produto = p) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void perquisarComANYProdutosQueJaForamVendidosPeloPrecoDiferenteDoAtual() {
+        String jpql = "SELECT p from Produto p " +
+                " WHERE p.preco <> ANY (SELECT precoProduto FROM ItemPedido WHERE produto = p) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void perquisarComANYProdutosQueJaForamVendidosPeloMenos1VezPeloPrecoAtual() {
+        String jpql = "SELECT p from Produto p " +
+                " WHERE p.preco = ANY (SELECT precoProduto FROM ItemPedido WHERE produto = p) ";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void perquisarComAllProdutosQueNaoForamVendidosDepoisQueEncareceram() {
         String jpql = "SELECT p from Produto p " +
                 " WHERE p.preco > ALL (SELECT precoProduto FROM ItemPedido WHERE produto = p) ";
