@@ -15,6 +15,22 @@ import java.util.List;
 public class BasicoJPQLTest extends EntityManagerTest {
 
     @Test
+    public void usarDistinct() {
+
+        String jpql = "SELECT DISTINCT p FROM Pedido p " +
+                " JOIN p.itens i " +
+                " JOIN i.produto pro " +
+                " WHERE pro.id IN (1,2,3,4) ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+
+        List<Pedido> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+
+        System.out.println(lista.size());
+    }
+
+    @Test
     public void ordenarResultadosCrescente() {
 
         String jpql = "SELECT c FROM Cliente c ORDER BY c.nome ASC";

@@ -14,6 +14,11 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Produto.listar", query = "SELECT p FROM Produto p"),
+        @NamedQuery(name = "Produto.listarPorCategoria",
+                query = "SELECT p FROM Produto p WHERE EXISTS (SELECT 1 FROM Categoria c2 JOIN c2.produtos p2 WHERE p2 = p AND c2.id = :categoria)")
+})
 @EntityListeners({GenericoListener.class})
 @Table(name = "produto",
         uniqueConstraints = {@UniqueConstraint(name = "uni_nome", columnNames = {"nome"})},
