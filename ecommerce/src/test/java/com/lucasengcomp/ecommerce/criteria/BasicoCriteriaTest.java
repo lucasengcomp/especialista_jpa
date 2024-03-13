@@ -3,6 +3,7 @@ package com.lucasengcomp.ecommerce.criteria;
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
+import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,8 +12,26 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class BasicoCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void retornarTodosProdutos() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> root = criteriaQuery.from(Produto.class);
+
+        criteriaQuery.select(root);
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Produto> produtos = typedQuery.getResultList();
+
+        Assert.assertFalse(produtos.isEmpty());
+
+        System.out.println("Quantidade: " + produtos.size());
+        produtos.forEach(produto -> System.out.println(produto.getId() + " - " + produto.getNome()));
+    }
 
     @Test
     public void selecionarUmAtributoParaRetorno() {
