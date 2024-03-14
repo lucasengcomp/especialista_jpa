@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.criteria;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
 import com.lucasengcomp.ecommerce.model.abstractclass.Pagamento;
 import com.lucasengcomp.ecommerce.model.enums.StatusPagamento;
@@ -12,6 +13,47 @@ import javax.persistence.criteria.*;
 import java.util.List;
 
 public class JoinCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void fazerJoinFetchINotaFiscalPagamentoCliente() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        root.fetch("notaFiscal", JoinType.LEFT);
+        root.fetch("pagamento", JoinType.LEFT);
+        root.fetch("cliente");
+        //Join<Pedido, Cliente> joinCliente = (Join<Pedido, Cliente>) root.<Pedido, Cliente>fetch("cliente");
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), 1));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        Pedido pedido = typedQuery.getSingleResult();
+        Assert.assertNotNull(pedido);
+    }
+
+    @Test
+    public void fazerJoinFetchItensNotaFiscalPagamento() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        root.fetch("itens");
+        root.fetch("notaFiscal", JoinType.LEFT);
+        root.fetch("pagamento", JoinType.LEFT);
+
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), 1));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        Pedido pedido = typedQuery.getSingleResult();
+
+        Assert.assertNotNull(pedido);
+        Assert.assertFalse(pedido.getItens().isEmpty());
+    }
 
     @Test
     public void fazerLeftOuterJoin() {
