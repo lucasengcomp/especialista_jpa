@@ -1,6 +1,8 @@
 package com.lucasengcomp.ecommerce.criteria;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.model.Cliente;
+import com.lucasengcomp.ecommerce.model.Cliente_;
 import com.lucasengcomp.ecommerce.model.Produto;
 import com.lucasengcomp.ecommerce.model.Produto_;
 import org.junit.Assert;
@@ -13,6 +15,21 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class MetaModelTest extends EntityManagerTest {
+
+    @Test
+    public void utilizarLikeParaConsultaComMetaModel() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
+        Root<Cliente> root = criteriaQuery.from(Cliente.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.like(root.get(Cliente_.nome), "L%"));
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Cliente> lista = typedQuery.getResultList();
+        Assert.assertFalse(lista.isEmpty());
+    }
 
     @Test
     public void utilizarMetaModel() {
