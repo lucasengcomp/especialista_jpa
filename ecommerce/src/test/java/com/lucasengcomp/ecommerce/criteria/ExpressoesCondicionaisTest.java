@@ -2,6 +2,7 @@ package com.lucasengcomp.ecommerce.criteria;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.model.*;
+import com.lucasengcomp.ecommerce.model.enums.StatusPedido;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +15,63 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarExpressaoComOperadorLogicoOR() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(
+                criteriaBuilder.and(
+                        criteriaBuilder.greaterThan(root.get(Pedido_.status), StatusPedido.AGUARDANDO)),
+                criteriaBuilder.equal(root.get(Pedido_.status), StatusPedido.PAGO),
+                criteriaBuilder.greaterThan(root.get(Pedido_.dataCriacao), LocalDateTime.now().minusDays(5)));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoComOperadorLogicoAND() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(
+                criteriaBuilder.and(
+                        criteriaBuilder.greaterThan(root.get(Pedido_.total), new BigDecimal(499)),
+                        criteriaBuilder.equal(root.get(Pedido_.status), StatusPedido.PAGO)),
+                criteriaBuilder.greaterThan(root.get(Pedido_.dataCriacao), LocalDateTime.now().minusDays(5)));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoComOperadorLogicoEqual() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(root.get(Pedido_.total), new BigDecimal(499)),
+                criteriaBuilder.equal(root.get(Pedido_.status), StatusPedido.PAGO));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
 
     @Test
     public void usarExpressaoDiferente() {
