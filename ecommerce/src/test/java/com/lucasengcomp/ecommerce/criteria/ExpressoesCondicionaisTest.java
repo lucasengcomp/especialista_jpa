@@ -17,6 +17,41 @@ import java.util.List;
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
+    public void usarExpressaoDESC() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
+        Root<Cliente> root = criteriaQuery.from(Cliente.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Cliente_.nome)));
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Cliente> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+        lista.forEach(cliente -> System.out.println(cliente.getId() + ", " + cliente.getNome()));
+    }
+
+    @Test
+    public void usarExpressaoASC() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
+        Root<Cliente> root = criteriaQuery.from(Cliente.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Cliente_.nome)));
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Cliente> lista = typedQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+
+        lista.forEach(cliente -> System.out.println(cliente.getId() + ", " + cliente.getNome()));
+    }
+
+    @Test
     public void usarExpressaoComOperadorLogicoOR() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
