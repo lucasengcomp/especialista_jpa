@@ -1,20 +1,44 @@
 package com.lucasengcomp.ecommerce.criteria;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
-import com.lucasengcomp.ecommerce.model.Cliente_;
-import com.lucasengcomp.ecommerce.model.Pedido;
-import com.lucasengcomp.ecommerce.model.Pedido_;
+import com.lucasengcomp.ecommerce.model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PathExpressionTest extends EntityManagerTest {
+
+    @Test
+    public void condicionarAgrupamentoComHaving() {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<ItemPedido> root = criteriaQuery.from(ItemPedido.class);
+        Join<ItemPedido, Produto> joinProduto = root.join(ItemPedido_.produto);
+        Join<Produto, Categoria> joinProdutoCategoria = joinProduto.join(Produto_.categorias);
+
+        criteriaQuery.multiselect(joinProdutoCategoria.get(Categoria_.nome),
+                criteriaBuilder.sum(root.get(ItemPedido_.precoProduto)),
+                criteriaBuilder.avg(root.get(ItemPedido_.precoProduto))
+        );
+
+        criteriaQuery.groupBy(joinProdutoCategoria.get(Categoria_.id));
+
+        criteriaQuery.having(criteriaBuilder.greaterThan(
+                criteriaBuilder.avg(root.get(ItemPedido_.precoProduto)).as(BigDecimal.class), new BigDecimal(700)));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> lista = typedQuery.getResultList();
+
+        lista.forEach(arr -> System.out.println(
+                "Nome categoria: " + arr[0]
+                        + ", SUM: " + arr[1]
+                        + ", AVG: " + arr[2]));
+    }
 
     @Test
     public void agruparResultadoComFuncoesTotalVendasPorMes() {
