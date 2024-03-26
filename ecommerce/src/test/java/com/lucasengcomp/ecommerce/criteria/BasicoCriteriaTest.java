@@ -4,6 +4,7 @@ import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
+import com.lucasengcomp.ecommerce.model.Pedido_;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +18,22 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BasicoCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usarDistinct() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+        root.join(Pedido_.itens);
+
+        criteriaQuery.select(root);
+        criteriaQuery.distinct(true);
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+
+        lista.forEach(p -> System.out.println("ID: " + p.getId()));
+    }
 
     @Test
     public void projetarOResultadoDTO() {
