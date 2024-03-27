@@ -277,27 +277,41 @@ CREATE TABLE ecm_categoria (cat_id INTEGER NOT NULL auto_increment, cat_nome VAR
 
 CREATE function acima_media_faturamento(valor DOUBLE) returns boolean reads SQL data return valor > (SELECT AVG(total) FROM pedido);
 
+DELIMITER //
+
 CREATE PROCEDURE buscar_nome_produto(IN produto_id INT, OUT produto_nome VARCHAR(255))
-BEGIN SELECT nome INTO produto_nome FROM produto WHERE id = produto_id;
-END
+BEGIN
+    SELECT nome INTO produto_nome FROM produto WHERE id = produto_id;
+END//
+
 DELIMITER ;
+
+DELIMITER //
 
 CREATE PROCEDURE compraram_acima_media(IN ano INTEGER)
 BEGIN
-    SELECT cli.*
+    SELECT cli.*, clid.*
     FROM cliente cli
+    JOIN cliente_detalhe clid ON clid.cliente_id = cli.id
     JOIN pedido ped ON ped.cliente_id = cli.id
     WHERE ped.status = 'PAGO'
     AND YEAR(ped.data_criacao) = ano
     GROUP BY ped.cliente_id
-    HAVING SUM(ped.total) >= (SELECT AVG(total_por_cliente.sum_total)
-                              FROM (SELECT SUM(ped2.total) sum_total
-                                    FROM pedido ped2
-                                    WHERE ped.status = 'PAGO'
-                                    AND YEAR(ped2.data_criacao) = ano
-                                    GROUP BY ped2.cliente_id) AS total_por_cliente);
-                                    END
+    HAVING SUM(ped.total) >= (
+        SELECT AVG(total_por_cliente.sum_total)
+        FROM (
+            SELECT SUM(ped2.total) sum_total
+            FROM pedido ped2
+            WHERE ped2.status = 'PAGO'
+            AND YEAR(ped2.data_criacao) = ano
+            GROUP BY ped2.cliente_id
+        ) AS total_por_cliente
+    );
+END//
+
 DELIMITER ;
+
+DELIMITER //
 
 CREATE PROCEDURE ajustar_preco_produto(IN produto_id INT, IN percentual_ajuste DOUBLE, OUT preco_ajustado DOUBLE)
 BEGIN
@@ -305,5 +319,6 @@ BEGIN
     SELECT preco INTO produto_preco FROM produto WHERE id = produto_id;
     SET preco_ajustado = produto_preco + (produto_preco * percentual_ajuste);
     UPDATE produto SET preco = preco_ajustado WHERE id = produto_id;
-END
+END//
+
 DELIMITER ;
