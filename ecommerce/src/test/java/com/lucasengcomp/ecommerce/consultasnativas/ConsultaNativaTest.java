@@ -11,6 +11,26 @@ import java.util.List;
 public class ConsultaNativaTest extends EntityManagerTest {
 
     @Test
+    public void usarUmaNamedNativeQuery02() {
+        Query query = entityManager.createNamedQuery("ecm_produto.listar");
+
+        List<Produto> lista = query.getResultList();
+
+        lista.stream().forEach(obj -> System.out.println(
+                String.format("Produto => ID: %s, Nome: %s", obj.getId(), obj.getNome())));
+    }
+
+    @Test
+    public void usarUmaNamedNativeQuery01() {
+        Query query = entityManager.createNamedQuery("produto_loja.listar");
+
+        List<Produto> lista = query.getResultList();
+
+        lista.stream().forEach(obj -> System.out.println(
+                String.format("ProdutoDTO => ID: %s, Nome: %s", obj.getId(), obj.getNome())));
+    }
+
+    @Test
     public void usarColumnResultRetornarDTO() {
         String sql = "SELECT * FROM ecm_produto";
 
