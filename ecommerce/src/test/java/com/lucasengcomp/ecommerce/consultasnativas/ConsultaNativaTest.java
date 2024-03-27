@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.consultasnativas;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.model.ItemPedido;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Test;
 
@@ -8,6 +9,19 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class ConsultaNativaTest extends EntityManagerTest {
+
+    @Test
+    public void usarSQLResultSetMapping01() {
+        String sql = " SELECT id, nome, descricao, data_criacao, data_ultima_atualizacao, preco, foto " +
+                " FROM produto_loja ";
+
+        Query query = entityManager.createNativeQuery(sql, "produto_loja.Produto");
+
+        List<Produto> lista = query.getResultList();
+
+        lista.stream().forEach(obj ->
+                System.out.println(String.format("Produto => ID: %s, Nome: %s ", obj.getId(), obj.getNome())));
+    }
 
     @Test
     public void passandoParametrosNaConsulta() {

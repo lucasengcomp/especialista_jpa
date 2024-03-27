@@ -14,6 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@SqlResultSetMappings({
+        @SqlResultSetMapping(name = "produto_loja.Produto", entities = {@EntityResult(entityClass = Produto.class)}),
+        @SqlResultSetMapping(name = "produto_item-produto.ItemProduto-Produto",
+                entities = {@EntityResult(entityClass = ItemPedido.class),
+                        @EntityResult(entityClass = Produto.class)}),
+})
 @NamedQueries({
         @NamedQuery(name = "Produto.listar", query = "SELECT p FROM Produto p"),
         @NamedQuery(name = "Produto.listarPorCategoria",
