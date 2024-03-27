@@ -1,5 +1,6 @@
 package com.lucasengcomp.ecommerce.model;
 
+import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.embeddables.Atributo;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
 import com.lucasengcomp.ecommerce.pk.EntidadeBaseInteger;
@@ -16,9 +17,9 @@ import java.util.List;
 @Entity
 @SqlResultSetMappings({
         @SqlResultSetMapping(name = "produto_loja.Produto",
-                entities = { @EntityResult(entityClass = Produto.class) }),
+                entities = {@EntityResult(entityClass = Produto.class)}),
         @SqlResultSetMapping(name = "ecm_produto.Produto",
-                entities = { @EntityResult(entityClass = Produto.class,
+                entities = {@EntityResult(entityClass = Produto.class,
                         fields = {
                                 @FieldResult(name = "id", column = "prd_id"),
                                 @FieldResult(name = "nome", column = "prd_nome"),
@@ -28,7 +29,15 @@ import java.util.List;
                                 @FieldResult(name = "dataCriacao", column = "prd_data_criacao"),
                                 @FieldResult(name = "dataUltimaAtualizacao",
                                         column = "prd_data_ultima_atualizacao")
-                        }) })
+                        })}),
+        @SqlResultSetMapping(name = "ecm_produto.ProdutoDTO",
+                classes = {
+                        @ConstructorResult(targetClass = ProdutoDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "prd_id", type = Integer.class),
+                                        @ColumnResult(name = "prd_nome", type = String.class)
+                                })
+                })
 })
 @NamedQueries({
         @NamedQuery(name = "Produto.listar", query = "SELECT p FROM Produto p"),

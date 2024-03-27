@@ -1,6 +1,7 @@
 package com.lucasengcomp.ecommerce.consultasnativas;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
+import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Test;
 
@@ -8,6 +9,18 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class ConsultaNativaTest extends EntityManagerTest {
+
+    @Test
+    public void usarColumnResultRetornarDTO() {
+        String sql = "SELECT * FROM ecm_produto";
+
+        Query query = entityManager.createNativeQuery(sql, "ecm_produto.ProdutoDTO");
+
+        List<ProdutoDTO> lista = query.getResultList();
+
+        lista.stream().forEach(obj -> System.out.println(
+                String.format("ProdutoDTO => ID: %s, Nome: %s", obj.getId(), obj.getNome())));
+    }
 
     @Test
     public void usarFieldResult() {
