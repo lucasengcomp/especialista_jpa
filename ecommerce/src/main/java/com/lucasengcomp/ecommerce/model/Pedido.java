@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,12 +26,16 @@ import java.util.List;
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger {
 
+    @PastOrPresent
     @Column(name = "data_criacao", updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
+    @PastOrPresent
     @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
+    @Past
+    @NotNull
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
 
@@ -45,6 +52,7 @@ public class Pedido extends EntidadeBaseInteger {
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
     private Cliente cliente;

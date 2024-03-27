@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +34,14 @@ public class Cliente extends EntidadeBaseInteger {
     private String nome;
 
     @NotBlank
+    @Pattern(regexp = "^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2})|(\\d{11})$")
     @Column(length = 14, nullable = false)
     private String cpf;
 
     @Transient
     private String primeiroNome;
 
+    @NotNull
     @Column(table = "cliente_detalhe", name = "sexo", length = 100)
     @Enumerated(EnumType.STRING)
     private SexoCliente sexoCliente;
@@ -47,6 +52,7 @@ public class Cliente extends EntidadeBaseInteger {
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
 
+    @NotEmpty
     @ElementCollection
     @CollectionTable(name = "cliente_contato",
             joinColumns = @JoinColumn(name = "cliente_id"))

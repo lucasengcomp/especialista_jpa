@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -17,11 +18,13 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "tipo_pagamento", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pagamento extends EntidadeBaseInteger {
 
+    @NotNull
     @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPagamento status;
 
     @MapsId
+    @NotNull
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pagamento_pedido"))
     private Pedido pedido;
