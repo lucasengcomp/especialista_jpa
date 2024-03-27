@@ -322,3 +322,35 @@ BEGIN
 END//
 
 DELIMITER ;
+
+
+CREATE VIEW view_clientes_acima_media AS
+SELECT
+    cli.*,
+    clid.*
+FROM
+    cliente cli
+    JOIN cliente_detalhe clid ON clid.cliente_id = cli.id
+    JOIN pedido ped ON ped.cliente_id = cli.id
+WHERE
+    ped.status = 'PAGO'
+    AND YEAR(ped.data_criacao) = YEAR(CURRENT_DATE)
+GROUP BY
+    ped.cliente_id
+HAVING
+    SUM(ped.total) >= (
+        SELECT
+            AVG(total_por_cliente.sum_total)
+        FROM
+            (
+                SELECT
+                    SUM(ped2.total) sum_total
+                FROM
+                    pedido ped2
+                WHERE
+                    ped2.status = 'PAGO'
+                    AND YEAR(ped2.data_criacao) = YEAR(CURRENT_DATE)
+                GROUP BY
+                    ped2.cliente_id
+            ) AS total_por_cliente
+    );
