@@ -13,6 +13,20 @@ import java.util.List;
 public class StoreProceduresTest extends EntityManagerTest {
 
     @Test
+    public void chamarNamedStoreProcedure() {
+        StoredProcedureQuery storedProcedureQuery = entityManager
+                .createStoredProcedureQuery("compraram_acima_media", Cliente.class);
+
+        storedProcedureQuery.registerStoredProcedureParameter("ano", Integer.class, ParameterMode.IN);
+
+        storedProcedureQuery.setParameter("ano", 2024);
+
+        List<Cliente> lista = storedProcedureQuery.getResultList();
+
+        Assert.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void exercicioAtualizarRegistro() {
         StoredProcedureQuery storedProcedureQuery = entityManager
                 .createStoredProcedureQuery("ajustar_preco_produto", Cliente.class);
