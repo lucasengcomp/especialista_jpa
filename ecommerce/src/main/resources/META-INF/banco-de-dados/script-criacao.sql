@@ -273,4 +273,6 @@ CREATE TABLE ecm_produto (prd_id INTEGER NOT NULL auto_increment, prd_nome VARCH
 
 CREATE TABLE erp_produto (id INTEGER NOT NULL auto_increment, nome VARCHAR(100), descricao longtext, preco DECIMAL(19, 2), PRIMARY KEY (id)) engine=InnoDB;
 
-CREATE function acima_media_faturamento(valor DOUBLE) returns boolean reads SQL data return valor > (SELECT avg(total) from pedido);
+CREATE TABLE ecm_categoria (cat_id INTEGER NOT NULL auto_increment, cat_nome VARCHAR(100), cat_categoria_pai_id INTEGER, PRIMARY KEY (cat_id)) engine=InnoDB;
+
+CREATE function acima_media_faturamento(valor DOUBLE) returns boolean reads SQL data return valor > (SELECT AVG(total) FROM pedido);

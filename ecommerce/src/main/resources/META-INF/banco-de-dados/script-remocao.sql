@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS testando;
 DROP TABLE IF EXISTS produto_loja;
 DROP TABLE IF EXISTS ecm_produto;
 DROP TABLE IF EXISTS erp_produto;
+DROP TABLE IF EXISTS ecm_categoria;
 
 DROP FUNCTION IF EXISTS acima_media_faturamento;
 

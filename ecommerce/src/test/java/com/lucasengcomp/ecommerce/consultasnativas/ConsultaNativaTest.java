@@ -2,6 +2,7 @@ package com.lucasengcomp.ecommerce.consultasnativas;
 
 import com.lucasengcomp.ecommerce.EntityManagerTest;
 import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
+import com.lucasengcomp.ecommerce.model.Categoria;
 import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.Test;
 
@@ -9,6 +10,16 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class ConsultaNativaTest extends EntityManagerTest {
+
+    @Test
+    public void usarArquivoXML() {
+        Query query = entityManager.createNamedQuery("ecm_categoria.listar");
+
+        List<Categoria> lista = query.getResultList();
+
+        lista.stream().forEach(obj -> System.out.println(
+                String.format("Categoria => ID: %s, Nome: %s", obj.getId(), obj.getNome())));
+    }
 
     @Test
     public void usarUmaNamedNativeQuery02() {
