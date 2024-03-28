@@ -5,6 +5,8 @@
              version="2.2">
     <persistence-unit name="Ecommerce-PU">
 
+        <jta-data-source>projetoDS</jta-data-source>
+
         <mapping-file>META-INF/consultas/pedido.xml</mapping-file>
         <mapping-file>META-INF/consultas/produto.xml</mapping-file>
         <mapping-file>META-INF/consultas/categoria.xml</mapping-file>
@@ -12,12 +14,12 @@
         <validation-mode>CALLBACK</validation-mode>
 
         <properties>
-            <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost/ecommerce?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC" />
-            <property name="javax.persistence.jdbc.user" value="root" />
-            <property name="javax.persistence.jdbc.password" value="root" />
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-            
+<!--            <property name="javax.persistence.jdbc.url"-->
+<!--                      value="jdbc:mysql://localhost/ecommerce?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC" />-->
+<!--            <property name="javax.persistence.jdbc.user" value="root" />-->
+<!--            <property name="javax.persistence.jdbc.password" value="root" />-->
+<!--            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />-->
+<!--            -->
             <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
 
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
