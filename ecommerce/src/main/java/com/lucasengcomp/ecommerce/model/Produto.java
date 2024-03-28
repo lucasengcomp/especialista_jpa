@@ -1,5 +1,6 @@
 package com.lucasengcomp.ecommerce.model;
 
+import com.lucasengcomp.ecommerce.converter.BooleanToSimNaoConverter;
 import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.embeddables.Atributo;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
@@ -70,6 +71,11 @@ public class Produto extends EntidadeBaseInteger {
 
     @Positive
     private BigDecimal preco;
+
+    @NotNull
+    @Column(nullable = false, length = 3)
+    @Convert(converter = BooleanToSimNaoConverter.class)
+    private Boolean ativo = Boolean.FALSE;
 
     @NotNull
     @PastOrPresent
