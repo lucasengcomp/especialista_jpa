@@ -1,6 +1,8 @@
 package com.lucasengcomp.ecommerce.cache;
 
+import com.lucasengcomp.ecommerce.model.Cliente;
 import com.lucasengcomp.ecommerce.model.Pedido;
+import com.lucasengcomp.ecommerce.model.Produto;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +24,18 @@ public class CacheTest {
     @AfterClass
     public static void tearDownAfterClass() {
         entityManagerFactory.close();
+    }
+
+    @Test
+    public void adicionarPedidosNoCache() {
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+        EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+
+        System.out.println("Buscando a partir da instância 1");
+        entityManager1.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
+
+        System.out.println("Buscando a partir da instância 2");
+        entityManager2.find(Pedido.class, 1);
     }
 
     @Test
