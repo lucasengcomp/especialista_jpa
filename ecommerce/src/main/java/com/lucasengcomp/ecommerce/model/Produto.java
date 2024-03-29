@@ -1,5 +1,6 @@
 package com.lucasengcomp.ecommerce.model;
 
+import com.lucasengcomp.ecommerce.converter.BooleanToSimNaoConverter;
 import com.lucasengcomp.ecommerce.dto.ProdutoDTO;
 import com.lucasengcomp.ecommerce.embeddables.Atributo;
 import com.lucasengcomp.ecommerce.listener.GenericoListener;
@@ -8,6 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,17 +62,27 @@ import java.util.List;
         indexes = @Index(name = "idx_nome", columnList = "nome"))
 public class Produto extends EntidadeBaseInteger {
 
+    @NotBlank
     @Column(length = 100, nullable = false)
     private String nome;
 
     @Lob
     private String descricao;
 
+    @Positive
     private BigDecimal preco;
 
+    @NotNull
+    @Column(nullable = false, length = 3)
+    @Convert(converter = BooleanToSimNaoConverter.class)
+    private Boolean ativo = Boolean.FALSE;
+
+    @NotNull
+    @PastOrPresent
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
+    @PastOrPresent
     @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
